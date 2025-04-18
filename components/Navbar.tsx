@@ -43,7 +43,6 @@ const Navbar = () => {
             {/* drawer toggle (hidden checkbox) */}
             <input id="mobile-drawer" type="checkbox" className="drawer-toggle" />
 
-            {/* drawer content */}
             <div className="drawer-content">
                 <div className="navbar bg-base-100 w-full">
                     <div className="navbar-start">
