@@ -1,5 +1,12 @@
 @import "tailwindcss";
 @plugin "daisyui"{
-  themes: caramellatte, coffee --prefersdark, cupcake --default;
+  themes: caramellatte --default, coffee --prefersdark, cupcake;
+  
+};
+@plugin "daisyui/theme"{
+  name: "caramellatte";
+  default: true;
+  --color-neutral: oklch(55% 0.135 66.442);
+  --color-neutral-content: oklch(98% 0.016 73.684);
 }
 
