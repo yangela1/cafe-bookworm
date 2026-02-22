@@ -1,0 +1,13 @@
+/* 
+can use css modules in app too
+
+.shape{
+    ...
+}
+
+then in the page.tsx do 
+import styles from '@/app/ui/home.module.css'
+and then create a new div JSX element 
+<div className={styles.shape} />
+
+*/

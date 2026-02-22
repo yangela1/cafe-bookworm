@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "@/app/ui/globals.css";
 import Navbar from "@/components/Navbar";
+import { inter } from "./ui/fonts";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={'vsc-initialized'}
+        className={`${inter.className} antialiased`}
         cz-shortcut-listen="true"
       >
         <Navbar />
