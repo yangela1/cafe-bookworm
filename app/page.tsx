@@ -1,10 +1,10 @@
-
+import Hero  from "@/app/_components/HomeHero";
 
 export default function Home() {
   return (
     <div className="">
       <main >
-        <p> hello world</p>
+        <Hero />
       </main>
 
       <footer className=""></footer>
