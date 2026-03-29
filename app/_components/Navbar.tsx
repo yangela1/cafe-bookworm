@@ -10,6 +10,11 @@ const Navbar = () => {
 
     const drawerMenu = (
         <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+            <li className="flex items-end justify-end mb-2">
+                <label htmlFor="mobile-drawer" className="btn btn-ghost btn-sm btn-circle">
+                    ✕
+                </label>
+            </li>
             {navItems.map(({ label, href }) => {
                 const isActive = pathname === href;
                 return (
@@ -59,11 +64,11 @@ const Navbar = () => {
                         <Link href={logoName.href} className="btn btn-ghost text-xl">{logoName.label}</Link>
                     </div>
 
-                    <div className="navbar-center items-center">
+                    <div className="navbar-center items-center  hidden lg:flex">
                         <SearchBar />
                     </div>
 
-                    <div className="navbar-end">
+                    <div className="navbar-end  hidden lg:flex">
                         {menu}
                     </div>
 
