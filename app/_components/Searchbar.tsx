@@ -10,7 +10,7 @@ export default function SearchBar() {
         className="flex-1 min-w-0 px-4 py-2.5 text-sm bg-white outline-none placeholder:text-base-content/40"
         value={query}
         onChange={e => setQuery(e.target.value)}
-        placeholder="Search..."
+        placeholder="..."
       />
        <button className="px-4 py-2.5 text-sm bg-accent text-base-100 font-medium hover:opacity-90 transition-opacity">
         Search

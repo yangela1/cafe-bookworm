@@ -1,4 +1,3 @@
-// data/cafes.ts
 export type Cafe = {
   slug: string
   name: string
