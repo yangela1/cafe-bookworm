@@ -3,15 +3,18 @@ import { useState } from 'react'
 
 export default function SearchBar() {
   const [query, setQuery] = useState('')
+
   return (
-    <div className="join">
-    <input
-      className="input join-item input-bordered"
-      value={query}
-      onChange={e => setQuery(e.target.value)}
-      placeholder="Search by cafe name or neighbourhood..."
-    />
-    <button className="btn join-item rounded-r-full">Search</button>
+    <div className="flex max-w-md mx-auto border border-base-300 rounded-xl overflow-hidden bg-base-100">
+      <input
+        className="flex-1 px-4 py-2.5 text-sm bg-white outline-none placeholder:text-base-content/40"
+        value={query}
+        onChange={e => setQuery(e.target.value)}
+        placeholder="Search by name..."
+      />
+       <button className="px-4 py-2.5 text-sm bg-accent text-base-100 font-medium hover:opacity-90 transition-opacity">
+        Search
+      </button>
     </div>
   )
 }

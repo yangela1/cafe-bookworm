@@ -3,6 +3,7 @@ import Link from 'next/link';
 import React from 'react'
 import { navItems, logoName } from '@/data/navItems';
 import { usePathname } from 'next/navigation';
+import SearchBar from "@/app/_components/Searchbar"
 
 const Navbar = () => {
     const pathname = usePathname();
@@ -44,7 +45,7 @@ const Navbar = () => {
             <input id="mobile-drawer" type="checkbox" className="drawer-toggle" />
 
             <div className="drawer-content">
-                <div className="navbar bg-base-100 w-full">
+                <div className="navbar bg-base-100 w-full pb-8">
                     <div className="navbar-start">
 
                         {/* hamburger button to open drawer */}
@@ -58,14 +59,17 @@ const Navbar = () => {
                         <Link href={logoName.href} className="btn btn-ghost text-xl">{logoName.label}</Link>
                     </div>
 
-                    {/* large nav */}
-                    <div className="navbar-center hidden lg:flex">
-                        {menu}
+                    <div className="navbar-center items-center">
+                        <SearchBar />
                     </div>
 
                     <div className="navbar-end">
-                        <a className="btn btn-neutral">unused button</a>
+                        {menu}
                     </div>
+
+                    {/* <div className="navbar-end">
+                        <a className="btn btn-neutral">button</a>
+                    </div> */}
                 </div>
             </div>
 

@@ -16,10 +16,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} antialiased`}
+        className={`${inter.className} antialiased max-w-4xl mx-auto`}
         cz-shortcut-listen="true"
       >
-        <Navbar />
+        <section>
+          <Navbar />
+
+        </section>
         {children}
       </body>
     </html>
