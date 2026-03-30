@@ -8,7 +8,7 @@ export default async function CafePage({ params }: { params: Promise<{ slug: str
   if (!cafe) notFound()
 
   return (
-    <main className="max-w-2xl mx-auto px-6 py-10">
+    <main className="max-w mx-auto px-6 py-10">
       <div className="breadcrumbs text-sm mb-6">
         <ul>
           <li><a href="/">Home</a></li>
