@@ -26,7 +26,7 @@ export default function HeroSection() {
             </h1>
             <div className="text-base text-base-content/60 max-w-xl mx-auto leading-relaxed flex flex-wrap justify-center items-center gap-1.5">
                 <span>Honest reviews and recommendations of</span>
-                <span className="relative h-[32px] overflow-hidden inline-flex flex-col font-black min-w-[80px] text-left text-xl -top-px">
+                <span className="relative h-[32px] overflow-hidden inline-flex flex-col font-black min-w-[80px] text-left">
                     <span 
                         className="transition-all duration-700 ease-in-out whitespace-nowrap"
                         style={{ transform: `translateY(-${index * 32}px)` }}
