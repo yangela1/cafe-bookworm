@@ -3,7 +3,7 @@ import CafeCard from './CafeCard'
 import Link from 'next/link'
 
 export default function LatestReviews() {
-  const latest = cafes.slice(0, 4)
+  const latest = cafes.slice(0, 6)
 
   return (
     <section className="px-6 py-8">
@@ -13,7 +13,7 @@ export default function LatestReviews() {
           View all →
         </Link>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-1">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         {latest.map(cafe => (
           <CafeCard key={cafe.slug} cafe={cafe} />
         ))}

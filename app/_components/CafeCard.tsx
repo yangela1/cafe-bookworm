@@ -4,13 +4,18 @@ import { Cafe } from '@/data/cafes'
 export default function CafeCard({ cafe }: { cafe: Cafe }) {
     return (
         <Link href={`/reviews/${cafe.slug}`}>
-            <div className="card bg-base-100 border border-base-300 hover:shadow-md transition-shadow cursor-pointer">
-                <figure>
+            <div className="card bg-base-100 border border-base-300 hover:shadow-md transition-shadow cursor-pointer h-full">
+                <figure className="h-32 w-full overflow-hidden">
                     <img
-                        src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                        alt="Shoes" />
+                        src={cafe.image}
+                        alt={cafe.name}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    {/* <div className="absolute top-2 right-2">
+                         <span className="badge badge-primary font-bold shadow-sm">{cafe.rating}.0</span>
+                    </div> */}
                 </figure>
-                <div className="card-body p-4 gap-2">
+                <div className="card-body p-3">
                     <h2 className="card-title text-sm">{cafe.name}</h2>
                     <div className="flex justify-between items-center">
                         <span className="badge badge-ghost text-xs">{cafe.neighbourhood}</span>

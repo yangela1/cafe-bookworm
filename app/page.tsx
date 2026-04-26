@@ -1,5 +1,6 @@
 import Hero from '@/app/_components/HomeHero'
 import LatestReviews from '@/app/_components/LatestReviews'
+import Footer from '@/app/_components/Footer'
 
 export default function Home() {
   return (
@@ -8,8 +9,6 @@ export default function Home() {
         <Hero />
         <LatestReviews />
       </main>
-
-      <footer className=""></footer>
     </div>
   );
 }
