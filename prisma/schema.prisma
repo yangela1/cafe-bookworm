@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model Cafe {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  name          String
+  street        String
+  city          City     
+  siteURL       String?  
+  hours         String?  
+  
+  hasWifi       Boolean  @default(false)
+  isStudyFriendly Boolean @default(false)
+
+  googlePlaceId String?  @unique 
+  mapsUrl       String?
+  latitude      Float
+  longitude     Float?
+
+  reviews       Review[]
+  images        Image[]
+}
+
+model Review {
+  id            String   @id @default(cuid())
+  cafeId        String
+  cafe          Cafe     @relation(fields: [cafeId], references: [id])
+  
+  order         String   
+  pricePoint    Int      
+  dateVisited   DateTime
+  thoughts      String
+  recommended   Boolean  
+}
+
+model Image {
+  id            String   @id @default(cuid())
+  url           String   
+  cafeId        String
+  cafe          Cafe     @relation(fields: [cafeId], references: [id])
+}
+
+enum City {
+  Vancouver
+  Burnaby
+  Richmond
+  Surrey
+  Coquitlam
+}

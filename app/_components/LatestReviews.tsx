@@ -1,9 +1,13 @@
-import { cafes } from '@/data/cafes'
+import prisma from '@/lib/prisma'
 import CafeCard from './CafeCard'
 import Link from 'next/link'
 
-export default function LatestReviews() {
-  const latest = cafes.slice(0, 6)
+export default async function LatestReviews() {
+  // Fetch latest 6 cafes from the database, including their images
+  const latest = await prisma.cafe.findMany({
+    take: 6,
+    include: { images: true }
+  })
 
   return (
     <section className="px-6 py-8">
@@ -15,7 +19,7 @@ export default function LatestReviews() {
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         {latest.map(cafe => (
-          <CafeCard key={cafe.slug} cafe={cafe} />
+          <CafeCard key={cafe.id} cafe={cafe} />
         ))}
       </div>
     </section>
