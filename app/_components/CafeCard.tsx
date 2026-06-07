@@ -8,7 +8,7 @@ export default function CafeCard({ cafe }: { cafe: CafeWithImages }) {
     // Dynamically create tags based on the database boolean fields
     const tags = []
     if (cafe.hasWifi) tags.push('Wifi')
-    if (cafe.isStudyFriendly) tags.push('Study Friendly')
+    if (cafe.isLaptopFriendly) tags.push('Laptop Friendly')
 
     // Get the first image, or the default placeholder from before!
     const imageUrl = cafe.images.length > 0 

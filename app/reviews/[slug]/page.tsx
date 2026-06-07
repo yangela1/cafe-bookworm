@@ -15,7 +15,7 @@ export default async function CafePage({ params }: { params: Promise<{ slug: str
   // Generate tags dynamically
   const tags = []
   if (cafe.hasWifi) tags.push('Wifi')
-  if (cafe.isStudyFriendly) tags.push('Study Friendly')
+  if (cafe.isLaptopFriendly) tags.push('Laptop Friendly')
 
   // Use review thoughts as description if available
   const description = cafe.reviews.length > 0 ? cafe.reviews[0].thoughts : 'No review provided yet.'

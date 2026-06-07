@@ -15,13 +15,13 @@ model Cafe {
   id            String   @id @default(cuid())
   slug          String   @unique
   name          String
-  street        String
+  street        String 
   city          City     
   siteURL       String?  
   hours         String?  
   
   hasWifi       Boolean  @default(false)
-  isStudyFriendly Boolean @default(false)
+  isLaptopFriendly Boolean @default(false)
 
   googlePlaceId String?  @unique 
   mapsUrl       String?
