@@ -26,10 +26,9 @@ Welcome! You are assisting in the development of **Cafe Bookworm**, a cafe revie
 
 ## 📋 Interaction Guidelines
 
-1. **Wait for approval**
-2. **Use Artifacts**: Track progress in `task.md` and summarize changes in `walkthrough.md`.
-3. **SEO First**: Implement descriptive title tags, meta descriptions, and semantic HTML (H1-H6) on every page.
-4. **Clean Code**: Maintain documentation integrity, preserve existing comments, and follow TypeScript best practices.
+**SEO First**: Implement descriptive title tags, meta descriptions, and semantic HTML (H1-H6) on every page.
+**Clean Code**: Maintain documentation integrity, preserve existing comments, and follow TypeScript best practices.
+**Scope Discipline**: Only make the changes explicitly requested — do not add extra features, refactors, or "improvements" beyond what was asked.
 
 ## 🚀 Quality Checklist
 
