@@ -8,6 +8,7 @@ export async function createCafe(formData: FormData, imageUrl: string | null) {
   const name = formData.get('name') as string
   const street = formData.get('street') as string
   const city = formData.get('city') as City
+  const latitude = parseFloat(formData.get('latitude') as string)
   const hours = formData.get('hours') as string
   const hasWifi = formData.get('hasWifi') === 'on'
   const isLaptopFriendly = formData.get('isLaptopFriendly') === 'on'
@@ -26,6 +27,7 @@ export async function createCafe(formData: FormData, imageUrl: string | null) {
       slug,
       street,
       city,
+      latitude,
       hours,
       hasWifi,
       isLaptopFriendly,

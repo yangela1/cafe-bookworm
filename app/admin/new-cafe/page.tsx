@@ -91,6 +91,14 @@ export default function NewCafePage() {
 
           <div className="form-control">
             <label className="label">
+              <span className="label-text font-medium">Latitude *</span>
+              <span className="label-text-alt text-base-content/50">(AI Automation Planned)</span>
+            </label>
+            <input type="number" step="any" name="latitude" required className="input input-bordered w-full bg-base-200/50" placeholder="e.g. 49.2827" />
+          </div>
+
+          <div className="form-control">
+            <label className="label">
               <span className="label-text font-medium">Hours</span>
               <span className="label-text-alt text-base-content/50">(AI Automation Planned)</span>
             </label>
