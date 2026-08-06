@@ -39,6 +39,11 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+Prisma client
+```
+npx prisma generate
+```
+
 ### Database
 
 This project uses Prisma with PostgreSQL. Set `POSTGRES_PRISMA_URL` and `POSTGRES_URL_NON_POOLING` in `.env`, then:
