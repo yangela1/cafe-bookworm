@@ -1,14 +1,11 @@
 import Link from 'next/link'
-import { Cafe, Image } from '@prisma/client'
+import { Cafe, Image, Tag } from '@prisma/client'
 
-// We extend the Cafe type to include the related images array that we fetch
-type CafeWithImages = Cafe & { images: Image[] }
+// We extend the Cafe type to include the related images and tags we fetch
+type CafeWithImages = Cafe & { images: Image[]; tags: Tag[] }
 
 export default function CafeCard({ cafe }: { cafe: CafeWithImages }) {
-    // Dynamically create tags based on the database boolean fields
-    const tags = []
-    if (cafe.hasWifi) tags.push('Wifi')
-    if (cafe.isLaptopFriendly) tags.push('Laptop Friendly')
+    const tags = cafe.tags.map(tag => tag.name)
 
     // Get the first image, or the default placeholder from before!
     const imageUrl = cafe.images.length > 0 

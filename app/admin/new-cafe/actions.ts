@@ -3,16 +3,19 @@
 import prisma from '@/lib/prisma'
 import { City } from '@prisma/client'
 import { redirect } from 'next/navigation'
+import { normalizeTagName } from '@/lib/tags'
 
 export async function createCafe(formData: FormData, imageUrl: string | null) {
   const name = formData.get('name') as string
-  const street = formData.get('street') as string
+  const address = formData.get('address') as string
   const city = formData.get('city') as City
   const latitude = parseFloat(formData.get('latitude') as string)
   const hours = formData.get('hours') as string
-  const hasWifi = formData.get('hasWifi') === 'on'
-  const isLaptopFriendly = formData.get('isLaptopFriendly') === 'on'
-  
+  const tagNames = formData.getAll('tags')
+    .map(t => normalizeTagName(t as string))
+    .filter(Boolean)
+
+
   const order = formData.get('order') as string
   const pricePoint = parseInt(formData.get('pricePoint') as string) || 3
   const thoughts = formData.get('thoughts') as string
@@ -25,12 +28,16 @@ export async function createCafe(formData: FormData, imageUrl: string | null) {
     data: {
       name,
       slug,
-      street,
+      address,
       city,
       latitude,
       hours,
-      hasWifi,
-      isLaptopFriendly,
+      tags: tagNames.length > 0 ? {
+        connectOrCreate: tagNames.map(name => ({
+          where: { name },
+          create: { name }
+        }))
+      } : undefined,
       reviews: {
         create: {
           order,

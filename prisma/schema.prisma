@@ -15,21 +15,20 @@ model Cafe {
   id            String   @id @default(cuid())
   slug          String   @unique
   name          String
-  street        String 
-  city          City     
-  siteURL       String?  
-  hours         String?  
-  
-  hasWifi       Boolean  @default(false)
-  isLaptopFriendly Boolean @default(false)
+  address       String
+  city          City
+  siteURL       String?
+  hours         String?
+  description   String?
 
-  googlePlaceId String?  @unique 
+  googlePlaceId String?  @unique
   mapsUrl       String?
-  latitude      Float
+  latitude      Float?
   longitude     Float?
 
   reviews       Review[]
   images        Image[]
+  tags          Tag[]    @relation("CafeTags")
 }
 
 model Review {
@@ -51,10 +50,17 @@ model Image {
   cafe          Cafe     @relation(fields: [cafeId], references: [id])
 }
 
+model Tag {
+  id    String @id @default(cuid())
+  name  String @unique
+  cafes Cafe[] @relation("CafeTags")
+}
+
 enum City {
   Vancouver
   Burnaby
   Richmond
   Surrey
   Coquitlam
+  NorthVancouver @map("North Vancouver")
 }

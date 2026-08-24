@@ -4,7 +4,7 @@ import CafeCard from '@/app/_components/CafeCard'
 export default async function ReviewsPage() {
   // Fetch all cafes from the database
   const cafes = await prisma.cafe.findMany({
-    include: { images: true }
+    include: { images: true, tags: true }
   })
 
   return (

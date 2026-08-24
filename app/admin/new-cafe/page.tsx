@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { createCafe } from './actions'
+import { CANONICAL_TAGS } from '@/lib/tags'
 
 export default function NewCafePage() {
   const [file, setFile] = useState<File | null>(null)
@@ -71,10 +72,10 @@ export default function NewCafePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="form-control">
               <label className="label">
-                <span className="label-text font-medium">Street Address *</span>
+                <span className="label-text font-medium">Address *</span>
                 <span className="label-text-alt text-base-content/50">(AI Automation Planned)</span>
               </label>
-              <input type="text" name="street" required className="input input-bordered w-full bg-base-200/50" placeholder="e.g. 123 Main St" />
+              <input type="text" name="address" required className="input input-bordered w-full bg-base-200/50" placeholder="e.g. 123 Main St" />
             </div>
             
             <div className="form-control">
@@ -108,16 +109,14 @@ export default function NewCafePage() {
 
         {/* Features */}
         <section className="space-y-4">
-          <h2 className="text-xl font-semibold border-b border-base-200 pb-2">Features</h2>
-          <div className="flex gap-6">
-            <label className="cursor-pointer label gap-2 justify-start">
-              <input type="checkbox" name="hasWifi" className="checkbox checkbox-primary" />
-              <span className="label-text">Has Wi-Fi</span>
-            </label>
-            <label className="cursor-pointer label gap-2 justify-start">
-              <input type="checkbox" name="isLaptopFriendly" className="checkbox checkbox-primary" />
-              <span className="label-text">Laptop Friendly</span>
-            </label>
+          <h2 className="text-xl font-semibold border-b border-base-200 pb-2">Tags</h2>
+          <div className="flex flex-wrap gap-3">
+            {CANONICAL_TAGS.map(tag => (
+              <label key={tag} className="cursor-pointer label gap-2 justify-start bg-base-200/50 rounded-lg px-3 py-1">
+                <input type="checkbox" name="tags" value={tag} className="checkbox checkbox-sm checkbox-primary" />
+                <span className="label-text text-sm">{tag}</span>
+              </label>
+            ))}
           </div>
         </section>
 

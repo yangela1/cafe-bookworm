@@ -9,18 +9,18 @@ async function main() {
   await prisma.image.deleteMany()
   await prisma.review.deleteMany()
   await prisma.cafe.deleteMany()
+  await prisma.tag.deleteMany()
 
   const cafeData = [
     {
       slug: 'matchstick-coffee',
       name: 'Matchstick Coffee',
-      street: 'Chinatown',
+      address: 'Chinatown',
       city: City.Richmond,
       siteURL: 'https://matchstickyvr.com/',
       hours: '7:00 AM - 5:00 PM',
-      hasWifi: true,
-      isLaptopFriendly: true,
-      googlePlaceId: 'ChIJmatchstick', 
+      tags: ['wifi', 'laptop-friendly'],
+      googlePlaceId: 'ChIJmatchstick',
       latitude: 49.279,
       longitude: -123.099,
       review: {
@@ -34,13 +34,12 @@ async function main() {
     {
       slug: 'revolver-coffee',
       name: 'Revolver Coffee',
-      street: 'Gastown',
+      address: 'Gastown',
       city: City.Vancouver,
       siteURL: 'https://revolvercoffee.ca/',
       hours: '8:00 AM - 6:00 PM',
-      hasWifi: false,
-      isLaptopFriendly: false,
-      googlePlaceId: 'ChIJrevolver', 
+      tags: [],
+      googlePlaceId: 'ChIJrevolver',
       latitude: 49.283,
       longitude: -123.109,
       review: {
@@ -54,12 +53,11 @@ async function main() {
     {
       slug: 'nemesis-coffee-gnw',
       name: 'Nemesis Coffee',
-      street: 'Gastown',
+      address: 'Gastown',
       city: City.Vancouver,
       siteURL: 'https://www.nemesis.coffee/',
       hours: '8:00 AM - 4:00 PM',
-      hasWifi: true,
-      isLaptopFriendly: true,
+      tags: ['wifi', 'laptop-friendly'],
       googlePlaceId: 'ChIJi7b2_Z5xhlQRPZ7s7z1t7sE',
       latitude: 49.2831,
       longitude: -123.1111,
@@ -74,13 +72,12 @@ async function main() {
     {
       slug: 'propaganda-coffee',
       name: 'Propaganda Coffee',
-      street: 'Chinatown',
+      address: 'Chinatown',
       city: City.Vancouver,
       siteURL: 'https://propagandacoffee.ca/',
       hours: '8:00 AM - 5:00 PM',
-      hasWifi: true,
-      isLaptopFriendly: true,
-      googlePlaceId: 'ChIJpropaganda', 
+      tags: ['wifi', 'laptop-friendly'],
+      googlePlaceId: 'ChIJpropaganda',
       latitude: 49.280,
       longitude: -123.100,
       review: {
@@ -94,13 +91,12 @@ async function main() {
     {
       slug: 'milano-espresso-bar',
       name: 'Milano Espresso Bar',
-      street: 'Mount Pleasant',
+      address: 'Mount Pleasant',
       city: City.Vancouver,
       siteURL: 'https://milanocoffee.ca/',
       hours: '7:00 AM - 6:00 PM',
-      hasWifi: true,
-      isLaptopFriendly: true,
-      googlePlaceId: 'ChIJmilano', 
+      tags: ['wifi', 'laptop-friendly'],
+      googlePlaceId: 'ChIJmilano',
       latitude: 49.263,
       longitude: -123.114,
       review: {
@@ -114,13 +110,12 @@ async function main() {
     {
       slug: 'kafkas-coffee',
       name: "Kafka's Coffee",
-      street: 'Main St',
+      address: 'Main St',
       city: City.Vancouver,
       siteURL: 'https://kafkascoffee.ca/',
       hours: '7:00 AM - 8:00 PM',
-      hasWifi: true,
-      isLaptopFriendly: true,
-      googlePlaceId: 'ChIJkafka', 
+      tags: ['wifi', 'laptop-friendly'],
+      googlePlaceId: 'ChIJkafka',
       latitude: 49.258,
       longitude: -123.101,
       review: {
@@ -138,12 +133,16 @@ async function main() {
       data: {
         slug: item.slug,
         name: item.name,
-        street: item.street,
+        address: item.address,
         city: item.city as City,
         siteURL: item.siteURL,
         hours: item.hours,
-        hasWifi: item.hasWifi,
-        isLaptopFriendly: item.isLaptopFriendly,
+        tags: item.tags.length > 0 ? {
+          connectOrCreate: item.tags.map(name => ({
+            where: { name },
+            create: { name }
+          }))
+        } : undefined,
         googlePlaceId: item.googlePlaceId,
         latitude: item.latitude,
         longitude: item.longitude,

@@ -5,20 +5,19 @@ export default async function CafePage({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   
   // Fetch the cafe directly from Postgres using the slug!
-  const cafe = await prisma.cafe.findUnique({ 
+  const cafe = await prisma.cafe.findUnique({
     where: { slug },
-    include: { images: true, reviews: true } 
+    include: { images: true, reviews: true, tags: true }
   })
 
   if (!cafe) notFound()
 
-  // Generate tags dynamically
-  const tags = []
-  if (cafe.hasWifi) tags.push('Wifi')
-  if (cafe.isLaptopFriendly) tags.push('Laptop Friendly')
+  const tags = cafe.tags.map(tag => tag.name)
 
-  // Use review thoughts as description if available
-  const description = cafe.reviews.length > 0 ? cafe.reviews[0].thoughts : 'No review provided yet.'
+  // Use the cafe description if set, otherwise fall back to the first review's thoughts
+  const description = cafe.description
+    ? cafe.description
+    : cafe.reviews.length > 0 ? cafe.reviews[0].thoughts : 'No review provided yet.'
   const rating = cafe.reviews.length > 0 ? cafe.reviews[0].pricePoint : 0
 
   return (
