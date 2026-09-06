@@ -6,7 +6,7 @@ export default async function LatestReviews() {
   // Fetch latest 6 cafes from the database, including their images
   const latest = await prisma.cafe.findMany({
     take: 6,
-    include: { images: true, tags: true }
+    include: { images: true, tags: true, reviews: true }
   })
 
   return (
