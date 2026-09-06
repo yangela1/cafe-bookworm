@@ -18,8 +18,10 @@ export async function createCafe(formData: FormData, imageUrl: string | null) {
 
   const order = formData.get('order') as string
   const pricePoint = parseInt(formData.get('pricePoint') as string) || 3
+  const rating = parseInt(formData.get('rating') as string) || 5
   const thoughts = formData.get('thoughts') as string
   const recommended = formData.get('recommended') === 'on'
+  const favourite = formData.get('favourite') === 'on'
   
   // Create a clean URL slug from the name
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')
@@ -42,9 +44,11 @@ export async function createCafe(formData: FormData, imageUrl: string | null) {
         create: {
           order,
           pricePoint,
+          rating,
           dateVisited: new Date(),
           thoughts,
-          recommended
+          recommended,
+          favourite
         }
       },
       images: imageUrl ? {

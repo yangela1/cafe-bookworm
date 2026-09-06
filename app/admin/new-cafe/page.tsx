@@ -133,7 +133,12 @@ export default function NewCafePage() {
               <input type="number" name="pricePoint" min="1" max="5" defaultValue="3" required className="input input-bordered w-full bg-base-200/50" />
             </div>
           </div>
-          
+
+          <div className="form-control">
+            <label className="label"><span className="label-text font-medium">Rating (1-5) *</span></label>
+            <input type="number" name="rating" min="1" max="5" defaultValue="5" required className="input input-bordered w-full bg-base-200/50" />
+          </div>
+
           <div className="form-control">
             <label className="label"><span className="label-text font-medium">Thoughts *</span></label>
             <textarea name="thoughts" required className="textarea textarea-bordered h-24 bg-base-200/50" placeholder="What did you think of this place?"></textarea>
@@ -142,6 +147,11 @@ export default function NewCafePage() {
           <label className="cursor-pointer label gap-2 justify-start">
             <input type="checkbox" name="recommended" defaultChecked className="toggle toggle-success" />
             <span className="label-text font-medium">I recommend this cafe</span>
+          </label>
+
+          <label className="cursor-pointer label gap-2 justify-start">
+            <input type="checkbox" name="favourite" className="toggle toggle-warning" />
+            <span className="label-text font-medium">This is one of my favourites</span>
           </label>
         </section>
 
