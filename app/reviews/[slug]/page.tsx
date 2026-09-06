@@ -14,11 +14,8 @@ export default async function CafePage({ params }: { params: Promise<{ slug: str
 
   const tags = cafe.tags.map(tag => tag.name)
 
-  // Use the cafe description if set, otherwise fall back to the first review's thoughts
-  const description = cafe.description
-    ? cafe.description
-    : cafe.reviews.length > 0 ? cafe.reviews[0].thoughts : 'No review provided yet.'
-  const rating = cafe.reviews.length > 0 ? cafe.reviews[0].pricePoint : 0
+  const description = cafe.reviews.length > 0 ? cafe.reviews[0].thoughts : 'No review provided yet.'
+  const rating = cafe.reviews.length > 0 ? cafe.reviews[0].rating : 0
 
   return (
     <main className="max-w mx-auto px-6 py-10">

@@ -19,7 +19,6 @@ model Cafe {
   city          City
   siteURL       String?
   hours         String?
-  description   String?
 
   googlePlaceId String?  @unique
   mapsUrl       String?
@@ -40,7 +39,9 @@ model Review {
   pricePoint    Int      
   dateVisited   DateTime
   thoughts      String
-  recommended   Boolean  
+  recommended   Boolean
+  rating        Int
+  favourite     Boolean  @default(false)
 }
 
 model Image {
