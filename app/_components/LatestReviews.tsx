@@ -1,6 +1,7 @@
 import prisma from '@/lib/prisma'
 import CafeCard from './CafeCard'
 import Link from 'next/link'
+import { ArrowRightIcon } from '@phosphor-icons/react/dist/ssr'
 
 // Most recent visit for a cafe. Cafes with no review yet sort last.
 function lastVisited(cafe: { reviews: { dateVisited: Date }[] }) {
@@ -22,8 +23,12 @@ export default async function LatestReviews() {
     <section className="max-w-4xl mx-auto py-8">
       <div className="flex justify-between items-baseline mb-4">
         <h2 className="text-base font-medium">Latest reviews</h2>
-        <Link href="/reviews" className="link link-hover text-xs text-base-content/60">
-          View all →
+        <Link
+          href="/reviews"
+          className="link link-hover text-xs text-base-content/60 inline-flex items-center gap-1"
+        >
+          View all
+          <ArrowRightIcon weight="bold" className="w-3 h-3" aria-hidden="true" />
         </Link>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">

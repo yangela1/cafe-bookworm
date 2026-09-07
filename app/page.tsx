@@ -1,6 +1,7 @@
 import prisma from '@/lib/prisma'
 import Hero from '@/app/_components/HomeHero'
 import SearchBar from '@/app/_components/Searchbar'
+import BrowseCities from '@/app/_components/BrowseCities'
 import LatestReviews from '@/app/_components/LatestReviews'
 
 export default async function Home() {
@@ -15,6 +16,7 @@ export default async function Home() {
         <section className="max-w-4xl mx-auto pt-8">
           <SearchBar variant="wide" />
         </section>
+        <BrowseCities />
         <LatestReviews />
       </main>
     </div>

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import NextImage from 'next/image'
 import { Cafe, Image, Review, Tag } from '@prisma/client'
 import { StarIcon, CurrencyDollarIcon, ProhibitIcon } from '@phosphor-icons/react/dist/ssr'
+import { PLACEHOLDER_CAFE_IMAGE } from '@/lib/images'
 
 // We extend the Cafe type to include the related images, tags, and reviews we fetch
 type CafeWithImages = Cafe & { images: Image[]; tags: Tag[]; reviews: Review[] }
@@ -16,7 +17,7 @@ export default function CafeCard({ cafe }: { cafe: CafeWithImages }) {
     // Get the first image, or the default placeholder from before!
     const imageUrl = cafe.images.length > 0
         ? cafe.images[0].url
-        : 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=500&auto=format&fit=crop'
+        : PLACEHOLDER_CAFE_IMAGE
 
     return (
         <Link href={`/reviews/${cafe.slug}`}>
