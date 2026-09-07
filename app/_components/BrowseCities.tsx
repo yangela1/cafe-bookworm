@@ -65,7 +65,7 @@ export default async function BrowseCities() {
           <Link
             key={tile.value}
             href={`/reviews?city=${tile.value}`}
-            className="group border border-base-300 rounded-2xl overflow-hidden bg-base-100 hover:border-accent transition-colors"
+            className="group border border-base-300 rounded-2xl overflow-hidden bg-base-100 hover:shadow-md transition-shadow cursor-pointer"
           >
             <div className="relative h-24">
               <NextImage
