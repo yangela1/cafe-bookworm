@@ -57,6 +57,8 @@ model Tag {
   cafes Cafe[] @relation("CafeTags")
 }
 
+// All 21 Metro Vancouver municipalities. Listed up front so importing a cafe
+// in a new city never needs another migration — unused values cost nothing.
 enum City {
   Vancouver
   Burnaby
@@ -64,4 +66,17 @@ enum City {
   Surrey
   Coquitlam
   NorthVancouver @map("North Vancouver")
+  WestVancouver  @map("West Vancouver")
+  NewWestminster @map("New Westminster")
+  PortCoquitlam  @map("Port Coquitlam")
+  PortMoody      @map("Port Moody")
+  Delta
+  Langley
+  MapleRidge     @map("Maple Ridge")
+  PittMeadows    @map("Pitt Meadows")
+  WhiteRock      @map("White Rock")
+  BowenIsland    @map("Bowen Island")
+  Anmore
+  Belcarra
+  LionsBay       @map("Lions Bay")
 }

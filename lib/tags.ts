@@ -20,8 +20,6 @@ export const CANONICAL_TAGS = [
   'bakery',
 ] as const
 
-export type CanonicalTag = (typeof CANONICAL_TAGS)[number]
-
 export function normalizeTagName(raw: string): string {
   return raw
     .trim()

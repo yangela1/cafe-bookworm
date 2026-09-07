@@ -1,7 +1,12 @@
 "use client"
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 
-export default function HeroSection() {
+type HeroProps = {
+    cafeCount: number
+}
+
+export default function HeroSection({ cafeCount }: HeroProps) {
     const drinks = [
         { label: "coffee", color: "text-[#6F4E37]" },
         { label: "matcha", color: "text-[#2D5A27]" },
@@ -17,7 +22,7 @@ export default function HeroSection() {
     }, [])
 
     return (
-        <section className="bg-base-200 px-6 py-16 text-center rounded-3xl max-w-4xl mx-auto border border-base-300">
+        <section className="bg-base-200 px-6 pt-16 pb-10 text-center rounded-3xl max-w-4xl mx-auto border border-base-300">
             <p className="text-sm uppercase tracking-[0.2em] font-bold text-base-content/40 mb-6">
                 Metro-Vancouver Cafe Reviews
             </p>
@@ -39,6 +44,14 @@ export default function HeroSection() {
                     </span>
                 </span>
             </div>
+
+            {/* Scale of the collection — grows on its own as cafes are added */}
+            <Link
+                href="/reviews"
+                className="mt-5 inline-flex items-center gap-2.5 px-[15px] py-[7px] rounded-full bg-base-100 border border-base-300 text-[12.5px] font-semibold hover:border-accent transition-colors"
+            >
+                <span><b className="font-extrabold">{cafeCount}</b> cafes reviewed</span>
+            </Link>
         </section>
     )
 }

@@ -62,19 +62,20 @@ const Navbar = () => {
                             {/* logo */}
                             <Link href={logoName.href} className="btn btn-ghost text-xl px-0">{logoName.label}</Link>
                         </div>
-                        
+
                         {/* Mobile menu (only visible on mobile if needed, or just use drawer) */}
                         <div className="lg:hidden">
                             {/* You could put another button here if needed */}
                         </div>
                     </div>
 
-                    <div className="w-full flex-1 md:flex justify-center px-2">
-                        <SearchBar />
-                    </div>
-
+                    {/* links sit next to the logo; search is pushed to the far right */}
                     <div className="hidden lg:flex">
                         {menu}
+                    </div>
+
+                    <div className="w-full md:w-auto md:ml-auto px-2">
+                        <SearchBar />
                     </div>
                 </div>
             </div>

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import NextImage from 'next/image'
 import { Cafe, Image, Review, Tag } from '@prisma/client'
 import { StarIcon, CurrencyDollarIcon, ProhibitIcon } from '@phosphor-icons/react/dist/ssr'
 
@@ -21,10 +22,14 @@ export default function CafeCard({ cafe }: { cafe: CafeWithImages }) {
         <Link href={`/reviews/${cafe.slug}`}>
             <div className="card bg-base-100 border border-base-300 hover:shadow-md transition-shadow cursor-pointer h-full">
                 <figure className="relative h-32 w-full overflow-hidden">
-                    <img
+                    <NextImage
                         src={imageUrl}
                         alt={cafe.name}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        fill
+                        // One card per row on phones, two on tablets, three on desktop —
+                        // keeps a 130-card grid from fetching full-size images.
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                     {isClosed && (
                         <div className="absolute top-4 -right-10 w-40 rotate-45 bg-error py-1 flex items-center justify-center gap-1.5 text-error-content text-[11px] font-extrabold uppercase tracking-widest text-center border-y border-error-content/25">

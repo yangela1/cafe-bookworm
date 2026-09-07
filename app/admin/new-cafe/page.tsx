@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { createCafe } from './actions'
 import { CANONICAL_TAGS } from '@/lib/tags'
+import { CITY_OPTIONS } from '@/lib/city'
 
 export default function NewCafePage() {
   const [file, setFile] = useState<File | null>(null)
@@ -81,11 +82,9 @@ export default function NewCafePage() {
             <div className="form-control">
               <label className="label"><span className="label-text font-medium">City *</span></label>
               <select name="city" className="select select-bordered w-full bg-base-200/50">
-                <option value="Vancouver">Vancouver</option>
-                <option value="Burnaby">Burnaby</option>
-                <option value="Richmond">Richmond</option>
-                <option value="Surrey">Surrey</option>
-                <option value="Coquitlam">Coquitlam</option>
+                {CITY_OPTIONS.map(([value, label]) => (
+                  <option key={value} value={value}>{label}</option>
+                ))}
               </select>
             </div>
           </div>

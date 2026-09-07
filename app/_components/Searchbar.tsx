@@ -16,13 +16,37 @@ type CafeResult = {
 
 const MAX_SUGGESTIONS = 6
 
-export default function SearchBar() {
+// 'compact' is the navbar pill; 'wide' is the full-width bar on the home page.
+type Variant = 'compact' | 'wide'
+
+export default function SearchBar({
+  variant = 'compact',
+  initialQuery = '',
+}: {
+  variant?: Variant
+  /** Current search term, so a results page can show what was searched.
+   *  Passed in from the server rather than read with useSearchParams, which
+   *  would break the static prerender of the pages this also renders on. */
+  initialQuery?: string
+}) {
+  const isWide = variant === 'wide'
+  // The long form names every axis matchesQuery() actually searches; the navbar
+  // pill is too narrow to show it without truncating.
+  const placeholder = isWide
+    ? 'Search by cafe, city, or address...'
+    : 'Search for cafes...'
   const router = useRouter()
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState(initialQuery)
   const [cafes, setCafes] = useState<CafeResult[]>([])
   const [isOpen, setIsOpen] = useState(false)
+
+  // Re-sync when navigation changes the active search, so the box never
+  // disagrees with the results being shown.
+  useEffect(() => {
+    setQuery(initialQuery)
+  }, [initialQuery])
 
   useEffect(() => {
     fetch('/api/cafes')
@@ -48,34 +72,80 @@ export default function SearchBar() {
 
   const goToResults = () => {
     setIsOpen(false)
-    router.push(`/reviews?q=${encodeURIComponent(query.trim())}`)
+    const trimmed = query.trim()
+
+    // Keep any filters already applied on the results page — searching should
+    // narrow what you're looking at, not silently reset it. Read from the live
+    // URL in the handler rather than useSearchParams(), which would opt the
+    // statically prerendered home page into client rendering.
+    const onResults = typeof window !== 'undefined' && window.location.pathname === '/reviews'
+    const params = new URLSearchParams(onResults ? window.location.search : '')
+
+    if (trimmed) params.set('q', trimmed)
+    else params.delete('q')
+
+    const next = params.toString()
+    router.push(next ? `/reviews?${next}` : '/reviews')
   }
 
   return (
-    <div ref={containerRef} className="relative w-full md:w-96 lg:w-96">
-      <div className="w-full flex border border-base-300 rounded-lg overflow-hidden bg-base-100 transition-all duration-300 focus-within:border-accent">
-        <input
-          className="flex-1 min-w-0 px-4 py-2.5 text-sm bg-white outline-none placeholder:text-base-content/40"
-          value={query}
-          onChange={e => {
-            setQuery(e.target.value)
-            setIsOpen(true)
-          }}
-          onFocus={() => setIsOpen(true)}
-          onKeyDown={e => {
-            if (e.key === 'Enter') goToResults()
-            if (e.key === 'Escape') setIsOpen(false)
-          }}
-          placeholder="Search for cafes..."
-        />
-        <button
-          onClick={goToResults}
-          className="flex items-center gap-1.5 px-6 py-2.5 text-sm bg-accent text-base-100 font-medium hover:opacity-90 transition-opacity"
-        >
-          <MagnifyingGlassIcon weight="bold" className="w-4 h-4" aria-hidden="true" />
-          Search
-        </button>
-      </div>
+    <div ref={containerRef} className={`relative w-full ${isWide ? '' : 'md:w-[240px]'}`}>
+      {isWide ? (
+        <div className="w-full flex items-stretch border-2 border-base-content rounded-[14px] overflow-hidden bg-base-100">
+          <div className="flex-1 min-w-0 flex items-center gap-2.5 px-4 py-3.5">
+            <MagnifyingGlassIcon
+              weight="bold"
+              className="w-[17px] h-[17px] shrink-0 text-base-content/45"
+              aria-hidden="true"
+            />
+            <input
+              className="flex-1 min-w-0 text-[14.5px] bg-transparent outline-none placeholder:text-base-content/40"
+              value={query}
+              onChange={e => {
+                setQuery(e.target.value)
+                setIsOpen(true)
+              }}
+              onFocus={() => setIsOpen(true)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') goToResults()
+                if (e.key === 'Escape') setIsOpen(false)
+              }}
+              placeholder={placeholder}
+            />
+          </div>
+          <button
+            onClick={goToResults}
+            className="flex items-center gap-1.5 px-[22px] text-sm font-semibold bg-accent text-base-100 hover:opacity-90 transition-opacity"
+          >
+            <MagnifyingGlassIcon weight="bold" className="w-[15px] h-[15px]" aria-hidden="true" />
+            Search
+          </button>
+        </div>
+      ) : (
+        <div className="w-full flex items-center gap-[7px] border border-base-300 rounded-lg bg-base-100 px-[11px] py-[6px] transition-all duration-300 focus-within:border-accent">
+          <button
+            onClick={goToResults}
+            aria-label="Search"
+            className="shrink-0 opacity-55 hover:opacity-100 transition-opacity"
+          >
+            <MagnifyingGlassIcon weight="bold" className="w-[13px] h-[13px]" aria-hidden="true" />
+          </button>
+          <input
+            className="flex-1 min-w-0 text-[12.5px] bg-transparent outline-none placeholder:text-base-content/45"
+            value={query}
+            onChange={e => {
+              setQuery(e.target.value)
+              setIsOpen(true)
+            }}
+            onFocus={() => setIsOpen(true)}
+            onKeyDown={e => {
+              if (e.key === 'Enter') goToResults()
+              if (e.key === 'Escape') setIsOpen(false)
+            }}
+            placeholder={placeholder}
+          />
+        </div>
+      )}
 
       {isOpen && query.trim() !== '' && (
         <div className="absolute z-20 mt-1.5 w-full rounded-lg border border-base-300 bg-base-100 overflow-hidden">
