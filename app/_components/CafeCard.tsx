@@ -1,12 +1,15 @@
 import Link from 'next/link'
 import { Cafe, Image, Review, Tag } from '@prisma/client'
-import { StarIcon, CurrencyDollarIcon } from '@phosphor-icons/react/dist/ssr'
+import { StarIcon, CurrencyDollarIcon, ProhibitIcon } from '@phosphor-icons/react/dist/ssr'
 
 // We extend the Cafe type to include the related images, tags, and reviews we fetch
 type CafeWithImages = Cafe & { images: Image[]; tags: Tag[]; reviews: Review[] }
 
 export default function CafeCard({ cafe }: { cafe: CafeWithImages }) {
     const tags = cafe.tags.map(tag => tag.name)
+    const isClosed = tags.includes('closed-down')
+    // Bump closed-down to the front so it survives the slice below
+    const visibleTags = [...tags].sort((a, b) => Number(b === 'closed-down') - Number(a === 'closed-down'))
     const review = cafe.reviews[0]
 
     // Get the first image, or the default placeholder from before!
@@ -17,12 +20,18 @@ export default function CafeCard({ cafe }: { cafe: CafeWithImages }) {
     return (
         <Link href={`/reviews/${cafe.slug}`}>
             <div className="card bg-base-100 border border-base-300 hover:shadow-md transition-shadow cursor-pointer h-full">
-                <figure className="h-32 w-full overflow-hidden">
+                <figure className="relative h-32 w-full overflow-hidden">
                     <img
                         src={imageUrl}
                         alt={cafe.name}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
+                    {isClosed && (
+                        <div className="absolute top-4 -right-10 w-40 rotate-45 bg-error py-1 flex items-center justify-center gap-1.5 text-error-content text-[11px] font-extrabold uppercase tracking-widest text-center border-y border-error-content/25">
+                            <ProhibitIcon weight="bold" className="w-3 h-3 ml-4" aria-hidden="true" />
+                            Closed
+                        </div>
+                    )}
                 </figure>
                 <div className="card-body p-3">
                     <h2 className="card-title text-sm">{cafe.name}</h2>
@@ -57,8 +66,15 @@ export default function CafeCard({ cafe }: { cafe: CafeWithImages }) {
                         </div>
                     )}
                     <div className="flex flex-wrap gap-1 mt-1">
-                        {tags.slice(0, 2).map(tag => (
-                            <span key={tag} className="badge badge-outline badge-sm">{tag}</span>
+                        {visibleTags.slice(0, 2).map(tag => (
+                            tag === 'closed-down' ? (
+                                <span key={tag} className="badge badge-error badge-sm gap-1 text-error-content">
+                                    <ProhibitIcon weight="bold" className="w-3 h-3" aria-hidden="true" />
+                                    {tag}
+                                </span>
+                            ) : (
+                                <span key={tag} className="badge badge-outline badge-sm">{tag}</span>
+                            )
                         ))}
                     </div>
                 </div>

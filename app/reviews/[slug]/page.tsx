@@ -1,6 +1,6 @@
 import prisma from '@/lib/prisma'
 import { notFound } from 'next/navigation'
-import { MapPinIcon, MapPinLineIcon, StarIcon, CurrencyDollarIcon, CoffeeIcon, ForkKnifeIcon } from '@phosphor-icons/react/dist/ssr'
+import { MapPinIcon, MapPinLineIcon, StarIcon, CurrencyDollarIcon, CoffeeIcon, ForkKnifeIcon, ProhibitIcon } from '@phosphor-icons/react/dist/ssr'
 import CopyAddressButton from '@/app/_components/CopyAddressButton'
 
 const FOOD_KEYWORDS = [
@@ -109,7 +109,14 @@ export default async function CafePage({ params }: { params: Promise<{ slug: str
           )}
           <div className="flex flex-wrap gap-2">
             {tags.map(tag => (
-              <span key={tag} className="badge badge-outline">{tag}</span>
+              tag === 'closed-down' ? (
+                <span key={tag} className="badge badge-error gap-1 text-error-content">
+                  <ProhibitIcon weight="bold" className="w-3.5 h-3.5" aria-hidden="true" />
+                  {tag}
+                </span>
+              ) : (
+                <span key={tag} className="badge badge-outline">{tag}</span>
+              )
             ))}
           </div>
           <div className="flex flex-col items-center justify-center gap-2 h-48 rounded-box border border-dashed border-base-300 bg-base-200 text-base-content/40">
