@@ -1,7 +1,49 @@
+import { cache } from 'react'
+import type { Metadata } from 'next'
 import prisma from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import { MapPinIcon, MapPinLineIcon, StarIcon, CurrencyDollarIcon, CoffeeIcon, ForkKnifeIcon, ProhibitIcon } from '@phosphor-icons/react/dist/ssr'
 import CopyAddressButton from '@/app/_components/CopyAddressButton'
+import { cityLabel } from '@/lib/city'
+import { SITE_NAME } from '@/lib/site'
+
+// Shared by generateMetadata and the page itself, so the slug is only looked up
+// once per request.
+const getCafe = cache(async (slug: string) =>
+  prisma.cafe.findUnique({
+    where: { slug },
+    include: { images: true, reviews: true, tags: true },
+  })
+)
+
+// Search engines cut descriptions around 155 characters; trim on a word break
+// so it doesn't end mid-word.
+function toDescription(text: string, limit = 155) {
+  const clean = text.replace(/\s+/g, ' ').trim()
+  if (clean.length <= limit) return clean
+  const cut = clean.slice(0, limit)
+  return `${cut.slice(0, cut.lastIndexOf(' '))}…`
+}
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+  const { slug } = await params
+  const cafe = await getCafe(slug)
+  if (!cafe) return { title: `cafe not found - ${SITE_NAME}` }
+
+  const city = cityLabel(cafe.city)
+  const review = cafe.reviews[0]
+
+  return {
+    // Cafe and city keep their proper casing; the brand stays lowercase.
+    title: `${cafe.name} - ${city} - review - ${SITE_NAME}`,
+    description: review
+      ? toDescription(review.thoughts)
+      : `A cafe review of ${cafe.name} in ${city}, Metro Vancouver.`,
+    alternates: { canonical: `/reviews/${slug}` },
+  }
+}
 
 const FOOD_KEYWORDS = [
   'cake', 'tart', 'bread', 'sandwich', 'waffle', 'croissant', 'pastry', 'cookie',
@@ -20,10 +62,7 @@ export default async function CafePage({ params }: { params: Promise<{ slug: str
   const { slug } = await params
 
   // Fetch the cafe directly from Postgres using the slug!
-  const cafe = await prisma.cafe.findUnique({
-    where: { slug },
-    include: { images: true, reviews: true, tags: true }
-  })
+  const cafe = await getCafe(slug)
 
   if (!cafe) notFound()
 

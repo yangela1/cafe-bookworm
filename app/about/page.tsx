@@ -4,7 +4,7 @@ import { GithubLogoIcon, UserIcon, SmileyIcon } from '@phosphor-icons/react/dist
 export const metadata: Metadata = {
   title: 'about | cafe bookworm',
   description:
-    "meet angela, the writer behind cafe bookworm - honest cafe reviews from metro vancouver, written with her boyfriend's help.",
+    "meet angela, the writer behind cafe bookworm - a blog of honest cafe reviews from metro vancouver.",
 }
 
 export default function AboutPage() {

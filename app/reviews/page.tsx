@@ -4,7 +4,15 @@ import FilterBar from '@/app/_components/FilterBar'
 import SearchBar from '@/app/_components/Searchbar'
 import { matchesQuery } from '@/lib/cafeSearch'
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import { CaretLeftIcon, CaretRightIcon } from '@phosphor-icons/react/dist/ssr'
+
+export const metadata: Metadata = {
+  title: 'all cafe reviews - Metro Vancouver - cafe bookworm',
+  description:
+    'Browse every cafe reviewed across Metro Vancouver. Filter by city and tag, or sort by rating and price point.',
+  alternates: { canonical: '/reviews' },
+}
 import { City } from '@prisma/client'
 import { CITY_OPTIONS } from '@/lib/city'
 
