@@ -118,10 +118,8 @@ export default async function CafePage({ params }: { params: Promise<{ slug: str
                   />
                 ))}
               </div>
-              {recommended !== null && (
-                <div className="badge badge-outline badge-sm mt-2">
-                  recommended: {recommended ? 'yes' : 'no'}
-                </div>
+              {recommended && (
+                <div className="badge badge-outline badge-sm mt-2">recommended</div>
               )}
             </div>
           </div>

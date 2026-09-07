@@ -122,28 +122,37 @@ export default function SearchBar({
           </button>
         </div>
       ) : (
-        <div className="w-full flex items-center gap-[7px] border border-base-300 rounded-lg bg-base-100 px-[11px] py-[6px] transition-all duration-300 focus-within:border-accent">
+        // Same palette as the wide bar — hard outline plus an accent submit —
+        // at the navbar's compact dimensions.
+        <div className="w-full flex items-stretch border-2 border-base-content rounded-lg overflow-hidden bg-base-100">
+          <div className="flex-1 min-w-0 flex items-center gap-[7px] px-[11px] py-[6px]">
+            <MagnifyingGlassIcon
+              weight="bold"
+              className="w-[13px] h-[13px] shrink-0 text-base-content/45"
+              aria-hidden="true"
+            />
+            <input
+              className="flex-1 min-w-0 text-[12.5px] bg-transparent outline-none placeholder:text-base-content/45"
+              value={query}
+              onChange={e => {
+                setQuery(e.target.value)
+                setIsOpen(true)
+              }}
+              onFocus={() => setIsOpen(true)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') goToResults()
+                if (e.key === 'Escape') setIsOpen(false)
+              }}
+              placeholder={placeholder}
+            />
+          </div>
           <button
             onClick={goToResults}
             aria-label="Search"
-            className="shrink-0 opacity-55 hover:opacity-100 transition-opacity"
+            className="flex items-center px-2.5 bg-accent text-base-100 hover:opacity-90 transition-opacity"
           >
             <MagnifyingGlassIcon weight="bold" className="w-[13px] h-[13px]" aria-hidden="true" />
           </button>
-          <input
-            className="flex-1 min-w-0 text-[12.5px] bg-transparent outline-none placeholder:text-base-content/45"
-            value={query}
-            onChange={e => {
-              setQuery(e.target.value)
-              setIsOpen(true)
-            }}
-            onFocus={() => setIsOpen(true)}
-            onKeyDown={e => {
-              if (e.key === 'Enter') goToResults()
-              if (e.key === 'Escape') setIsOpen(false)
-            }}
-            placeholder={placeholder}
-          />
         </div>
       )}
 

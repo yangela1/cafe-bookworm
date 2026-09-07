@@ -5,32 +5,22 @@ import { ArrowRightIcon } from '@phosphor-icons/react/dist/ssr'
 import { CITY_OPTIONS } from '@/lib/city'
 import { PLACEHOLDER_CAFE_IMAGE } from '@/lib/images'
 
-// Says nothing useful about what a city is like to visit.
-const CAPTION_EXCLUDED_TAGS = new Set(['closed-down', 'would-not-return'])
-const CAPTION_TAGS = 3
-
 export default async function BrowseCities() {
   const cafes = await prisma.cafe.findMany({
     select: {
       city: true,
-      tags: { select: { name: true } },
       images: { select: { url: true }, take: 1 },
     },
   })
 
   if (cafes.length === 0) return null
 
-  // Roll the cafes up per city: how many, what they're known for, and a photo
-  // to lead with once one exists.
-  const byCity = new Map<string, { count: number; tags: Map<string, number>; image?: string }>()
+  // Roll the cafes up per city: how many, and a photo to lead with once one exists.
+  const byCity = new Map<string, { count: number; image?: string }>()
   for (const cafe of cafes) {
-    const entry = byCity.get(cafe.city) ?? { count: 0, tags: new Map<string, number>() }
+    const entry = byCity.get(cafe.city) ?? { count: 0 }
     entry.count += 1
     entry.image ??= cafe.images[0]?.url
-    for (const { name } of cafe.tags) {
-      if (CAPTION_EXCLUDED_TAGS.has(name)) continue
-      entry.tags.set(name, (entry.tags.get(name) ?? 0) + 1)
-    }
     byCity.set(cafe.city, entry)
   }
 
@@ -38,12 +28,8 @@ export default async function BrowseCities() {
   const tiles = CITY_OPTIONS
     .filter(([value]) => byCity.has(value))
     .map(([value, label], declaredAt) => {
-      const { count, tags, image } = byCity.get(value)!
-      const topTags = [...tags.entries()]
-        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-        .slice(0, CAPTION_TAGS)
-        .map(([name]) => name)
-      return { value, label, count, image, topTags, declaredAt }
+      const { count, image } = byCity.get(value)!
+      return { value, label, count, image, declaredAt }
     })
     .sort((a, b) => b.count - a.count || a.declaredAt - b.declaredAt)
 
@@ -85,11 +71,6 @@ export default async function BrowseCities() {
                 </span>
               </div>
             </div>
-            {tile.topTags.length > 0 && (
-              <p className="px-3 pt-2.5 pb-3 text-xs leading-relaxed text-base-content/60">
-                {tile.topTags.join(' · ')}
-              </p>
-            )}
           </Link>
         ))}
       </div>

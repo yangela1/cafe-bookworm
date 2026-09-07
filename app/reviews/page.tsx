@@ -1,7 +1,6 @@
 import prisma from '@/lib/prisma'
 import CafeCard from '@/app/_components/CafeCard'
 import FilterBar from '@/app/_components/FilterBar'
-import SearchBar from '@/app/_components/Searchbar'
 import { matchesQuery } from '@/lib/cafeSearch'
 import Link from 'next/link'
 import type { Metadata } from 'next'
@@ -114,9 +113,6 @@ export default async function ReviewsPage({
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-5">
         <h1 className="text-2xl font-medium">{heading}</h1>
         <span className="text-sm text-base-content/55 tabular-nums">{count}</span>
-      </div>
-      <div className="mb-6">
-        <SearchBar variant="wide" initialQuery={query} />
       </div>
       <FilterBar cities={cityOptions} tags={tagOptions.map(tag => tag.name)} />
       {cafes.length > 0 ? (

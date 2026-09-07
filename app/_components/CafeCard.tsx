@@ -34,7 +34,7 @@ export default function CafeCard({ cafe }: { cafe: CafeWithImages }) {
                     />
                     {isClosed && (
                         <div className="absolute top-4 -right-10 w-40 rotate-45 bg-error py-1 flex items-center justify-center gap-1.5 text-error-content text-[11px] font-extrabold uppercase tracking-widest text-center border-y border-error-content/25">
-                            <ProhibitIcon weight="bold" className="w-3 h-3 ml-4" aria-hidden="true" />
+                            <ProhibitIcon weight="bold" className="w-3 h-3 ml-3" aria-hidden="true" />
                             Closed
                         </div>
                     )}
@@ -57,10 +57,12 @@ export default function CafeCard({ cafe }: { cafe: CafeWithImages }) {
                     </div>
                     {review && (
                         <div className="flex justify-between items-center text-xs mt-1">
-                            <span className="text-base-content/50">
-                                recommended: {review.recommended ? 'yes' : 'no'}
-                            </span>
-                            <span className="flex items-center">
+                            {review.recommended && (
+                                <span className="text-base-content/50">recommended</span>
+                            )}
+                            {/* ml-auto keeps the price at the right edge when the
+                                recommended label is absent */}
+                            <span className="flex items-center ml-auto">
                                 {Array.from({ length: 3 }).map((_, i) => (
                                     <CurrencyDollarIcon
                                         key={i}
